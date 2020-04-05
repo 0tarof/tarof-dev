@@ -6,9 +6,18 @@ jobs:
     docker:
       - image: circleci/node:12
     steps:
+      - checkout
       - attach_workspace:
           at: my-site
-      - run: ls -lah my-site
+      - run:
+          name: Link Built Sites
+          command: ln -snf my-site/public public
+      - run:
+          name: Install npm modules
+          command: npm ci
+      - run:
+          name: Deploy to Firebase
+          command: npx firebase deploy --token=$FIREBASE_TOKEN
 
 workflows:
   version: 2
@@ -19,6 +28,7 @@ workflows:
           source: .
           version: '0.60'
       - deploy:
+          context: Firebase
           filters:
             branches:
               only:
