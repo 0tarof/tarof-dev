@@ -17,7 +17,7 @@ workflows:
   build:
     jobs:
       - prepare:
-          filsters:
+          filters:
             branches:
               only: .*
       - hugo/build:
