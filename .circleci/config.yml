@@ -14,12 +14,10 @@ jobs:
             git submodule update --remote
 
 workflows:
+  version: 2
   build:
     jobs:
-      - prepare:
-          filters:
-            branches:
-              only: .*
+      - prepare
       - hugo/build:
           html-proofer: true
           source: .
