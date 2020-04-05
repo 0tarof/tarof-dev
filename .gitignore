@@ -1,6 +1,9 @@
 # Hugo default output directory
 /public
 
+# generated resource
+/resources/_gen
+
 ## OS Files
 # Windows
 Thumbs.db
@@ -10,3 +13,9 @@ $RECYCLE.BIN/
 
 # OSX
 .DS_Store
+
+# npm
+/node_modules
+
+# Firebase
+/.firebase
