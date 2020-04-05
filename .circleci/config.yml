@@ -1,0 +1,28 @@
+version: 2.1
+orbs:
+  hugo: circleci/hugo@0.4.1
+jobs:
+  prepare:
+    docker:
+      - image: circleci/golang:1.13-stretch-node
+    steps:
+      - checkout
+      - run:
+          name: "Pull Submodules"
+          command: |
+            git submodule init
+            git submodule update --remote
+
+workflows:
+  build:
+    jobs:
+      - prepare:
+          filsters:
+            branches:
+              only: .*
+      - hugo/build:
+          html-proofer: true
+          source: .
+          version: '0.60'
+          requires:
+            - prepare
