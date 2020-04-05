@@ -20,8 +20,8 @@ workflows:
           version: '0.60'
       - deploy:
           filters:
-            only:
-              branches:
+            branches:
+              only:
                 - master
           requires:
             - hugo/build
