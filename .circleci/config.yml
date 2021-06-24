@@ -1,10 +1,24 @@
 version: 2.1
+
 orbs:
   hugo: circleci/hugo@0.4.1
+
+executors:
+  default:
+    docker:
+      - image: cimg/base:2021.04
+
+commands:
+  install_firebase_tools:
+    steps:
+      - run:
+          name: Install firebase-tools
+          command: curl -sL https://firebase.tools | bash
+
 jobs:
   deploy:
-    docker:
-      - image: circleci/node:12
+    executor:
+      name: default
     steps:
       - checkout
       - attach_workspace:
@@ -12,12 +26,10 @@ jobs:
       - run:
           name: Link Built Sites
           command: ln -snf my-site/public public
-      - run:
-          name: Install npm modules
-          command: npm ci
+      - install_firebase_tools
       - run:
           name: Deploy to Firebase
-          command: npx firebase deploy --token=$FIREBASE_TOKEN
+          command: firebase deploy --token=$FIREBASE_TOKEN
 
 workflows:
   version: 2
@@ -26,7 +38,8 @@ workflows:
       - hugo/build:
           html-proofer: false
           source: .
-          version: '0.60'
+          version: "0.60"
+
       - deploy:
           context: Firebase
           filters:
