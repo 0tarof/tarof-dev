@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  hugo: circleci/hugo@0.4.1
+  hugo: circleci/hugo@1.2.2
 
 executors:
   default:
@@ -38,7 +38,7 @@ workflows:
       - hugo/build:
           html-proofer: false
           source: .
-          version: "0.60"
+          version: "0.84"
 
       - deploy:
           context: Firebase
